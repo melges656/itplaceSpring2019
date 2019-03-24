@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Реализация интерфейса @see {@link SummaryService}
@@ -29,6 +31,36 @@ public class SummaryServiceImpl implements SummaryService {
                 getClass().getClassLoader().getResourceAsStream(propertyFilePath)
         );
         this.personalData = personRepository.getPersonalData();
+    }
+
+    private ArrayList<String> getListDataFromAssociatedCollection(String associatedListData){
+        ArrayList<String> list = new ArrayList<>();
+        HashMap<String, Integer> associatedData = new HashMap<>();
+        for(String keyValue: associatedListData.split(";")){
+            String[] tmp = keyValue.split(":");
+            associatedData.put(tmp[0], Integer.parseInt(tmp[1]));
+        }
+        Map<String, Integer>  sorted = associatedData
+                .entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(
+                        Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
+                                LinkedHashMap::new));
+        for (Map.Entry<String, Integer> entry: sorted.entrySet()){
+            StringBuilder tmp = new StringBuilder("Опыт работы с ");
+            list.add(tmp.append(entry.getKey()).append(" в месяцах: ").append(entry.getValue()).toString());
+        }
+        return list;
+    }
+
+    private String getHtmlList(String listData, boolean isAssociatedCollection){
+        StringBuilder htmlList = new StringBuilder();
+        ArrayList<String> list = isAssociatedCollection?getListDataFromAssociatedCollection(listData):
+               new ArrayList<>(Arrays.asList(listData.split(";")));
+        for(String listItem: list)
+            htmlList.append("<li>").append(listItem).append("</li>");
+        return htmlList.toString();
     }
 
     @Override
@@ -76,7 +108,7 @@ public class SummaryServiceImpl implements SummaryService {
                     "        <div class=\"card card-block\">\n" +
                     "            <h4 class=\"card-title\"><strong>Образование:</strong></h4>\n" +
                     "            <ol class=\"card-text\">\n"
-                                    + personalData.getEducations() +
+                                    + getHtmlList(personalData.getEducations(), false) +
                     "            </ol>\n" +
                     "        </div>\n" +
                     "        <div class=\"card card-block\">\n" +
@@ -86,7 +118,7 @@ public class SummaryServiceImpl implements SummaryService {
                     "        <div class=\"card card-block\">\n" +
                     "            <h4 class=\"card-title\"><strong>Навыки:</strong></h4>\n" +
                     "            <ol class=\"card-text\">\n"
-                                    + personalData.getSkills() +
+                                    + getHtmlList(personalData.getSkills(), true) +
                     "            </ol>\n" +
                     "        </div>\n" +
                     "        <div class=\"card card-block\">\n" +
