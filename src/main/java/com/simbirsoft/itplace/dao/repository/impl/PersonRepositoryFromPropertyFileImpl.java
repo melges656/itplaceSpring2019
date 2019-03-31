@@ -2,6 +2,7 @@ package com.simbirsoft.itplace.dao.repository.impl;
 
 import com.simbirsoft.itplace.common.constants.PersonPropertyKeys;
 import com.simbirsoft.itplace.dao.repository.PersonRepository;
+import com.simbirsoft.itplace.dao.repository.threads.PropertyReader;
 import com.simbirsoft.itplace.domain.entity.PersonalData;
 
 import java.io.FileNotFoundException;
@@ -24,28 +25,30 @@ public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
      */
     private Properties personDataFile;
 
-    public PersonRepositoryFromPropertyFileImpl(InputStream configFileInput){
-        this.personDataFile = getProperties(configFileInput);
+    public PersonRepositoryFromPropertyFileImpl(String personConfigFileInput, String summaryConfigFileInput){
+        this.personDataFile = getProperties(personConfigFileInput, summaryConfigFileInput);
     }
 
     /**
      * Возвращает объект файла найстроек
      *
-     * @param configFileInput - поток файла настроек
+     * @param personConfigFileInput - путь к файлу настроек персональных данных
+     * @param summaryConfigFileInput - путь к файлу настроек данных резюме
      * @return - объект Properties
      */
-    private Properties getProperties(InputStream configFileInput) {
+    private Properties getProperties(String personConfigFileInput, String summaryConfigFileInput) {
         Properties property = new Properties();
+        PropertyReader personReader = new PropertyReader(personConfigFileInput, property);
+        personReader.start();
+        PropertyReader summaryReader = new PropertyReader(summaryConfigFileInput, property);
+        summaryReader.start();
         try {
-            property.load(new InputStreamReader(configFileInput, Charset.forName("UTF-8")));
-            return property;
-        } catch (FileNotFoundException e) {
-            System.out.println("Не найден файл настроек");
-            e.printStackTrace();
-        } catch (IOException e) {
+            personReader.join();
+            summaryReader.join();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return null;
+        return property;
     }
 
     /**

@@ -15,7 +15,7 @@ import java.net.URISyntaxException;
 public class Main {
 
     public static void main(String[] args) {
-        SummaryService summaryService = new SummaryServiceImpl("person.properties");
+        SummaryService summaryService = new SummaryServiceImpl("person.properties", "summary.properties");
         try {
             File destFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
             String destPath = (destFile.isDirectory()?destFile.getPath():destFile.getParent())+File.separator;

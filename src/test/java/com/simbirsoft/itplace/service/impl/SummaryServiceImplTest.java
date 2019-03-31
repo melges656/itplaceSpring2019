@@ -13,7 +13,7 @@ public class SummaryServiceImplTest {
     private  SummaryServiceImpl summaryService;
     @Before
     public void setUp() throws Exception {
-        summaryService = new SummaryServiceImpl("person.properties");
+        summaryService = new SummaryServiceImpl("person.properties", "summary.properties");
     }
 
     @After

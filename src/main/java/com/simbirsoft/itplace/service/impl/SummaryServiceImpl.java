@@ -24,11 +24,12 @@ public class SummaryServiceImpl implements SummaryService {
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(SummaryServiceImpl.class);
     /**
      * Метод для подключения .properties файла
-     * @param propertyFilePath - путь к .properties файла
+     * @param personPropertyFilePath - путь к .properties файлу персональных данных
+     * @param summaryPropertyFilePath - путь к .properties файлу данных резюме
      */
-    public SummaryServiceImpl(String propertyFilePath){
+    public SummaryServiceImpl(String personPropertyFilePath, String summaryPropertyFilePath){
         PersonRepository personRepository = new PersonRepositoryFromPropertyFileImpl(
-                getClass().getClassLoader().getResourceAsStream(propertyFilePath)
+                personPropertyFilePath, summaryPropertyFilePath
         );
         this.personalData = personRepository.getPersonalData();
     }

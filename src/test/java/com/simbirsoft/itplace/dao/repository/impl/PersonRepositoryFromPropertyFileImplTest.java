@@ -17,7 +17,7 @@ public class PersonRepositoryFromPropertyFileImplTest {
     @Before
     public void setUp() throws Exception {
         personalData = new PersonRepositoryFromPropertyFileImpl(
-                getClass().getClassLoader().getResourceAsStream("person.properties")).getPersonalData();
+                "person.properties", "summary.properties").getPersonalData();
     }
 
     @After
