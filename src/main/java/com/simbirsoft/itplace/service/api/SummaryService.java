@@ -13,4 +13,5 @@ public interface SummaryService {
      * @param Path - путь для сохранения html-файла
      */
     void createHtmlFile(String Path);
+    void initSummaryService(String personPropertyFilePath, String summaryPropertyFilePath);
 }

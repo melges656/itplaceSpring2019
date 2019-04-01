@@ -4,6 +4,10 @@ import com.simbirsoft.itplace.common.constants.PersonPropertyKeys;
 import com.simbirsoft.itplace.dao.repository.PersonRepository;
 import com.simbirsoft.itplace.dao.repository.threads.PropertyReader;
 import com.simbirsoft.itplace.domain.entity.PersonalData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,13 +22,24 @@ import java.util.Properties;
  * @author an.stratonov
  * @version 1.0
  */
+@Component
 public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
 
     /**
      * Свойство - опыт работы
      */
     private Properties personDataFile;
+    @Autowired
+    @Qualifier("propertyReader")
+    private Thread personReader;
+    @Autowired
+    @Qualifier("propertyReader")
+    private Thread summaryReader;
 
+    @Autowired
+    public PersonRepositoryFromPropertyFileImpl(){
+
+    }
     public PersonRepositoryFromPropertyFileImpl(String personConfigFileInput, String summaryConfigFileInput){
         this.personDataFile = getProperties(personConfigFileInput, summaryConfigFileInput);
     }
@@ -38,9 +53,9 @@ public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
      */
     private Properties getProperties(String personConfigFileInput, String summaryConfigFileInput) {
         Properties property = new Properties();
-        PropertyReader personReader = new PropertyReader(personConfigFileInput, property);
+        personReader = new PropertyReader(personConfigFileInput, property);
         personReader.start();
-        PropertyReader summaryReader = new PropertyReader(summaryConfigFileInput, property);
+        summaryReader = new PropertyReader(summaryConfigFileInput, property);
         summaryReader.start();
         try {
             personReader.join();

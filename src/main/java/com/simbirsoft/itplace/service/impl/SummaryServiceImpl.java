@@ -4,7 +4,9 @@ import com.simbirsoft.itplace.dao.repository.PersonRepository;
 import com.simbirsoft.itplace.dao.repository.impl.PersonRepositoryFromPropertyFileImpl;
 import com.simbirsoft.itplace.domain.entity.PersonalData;
 import com.simbirsoft.itplace.service.api.SummaryService;
-import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,23 +17,30 @@ import java.util.stream.Collectors;
 /**
  * Реализация интерфейса @see {@link SummaryService}
  */
+@Component
 public class SummaryServiceImpl implements SummaryService {
 
     /**
      * @see PersonalData
      */
     private PersonalData personalData;
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(SummaryServiceImpl.class);
+    @Autowired
+    @Qualifier("personRepositoryFromPropertyFileImpl")
+    private PersonRepository personRepository;
+    @Autowired
+    public SummaryServiceImpl(){}
     /**
      * Метод для подключения .properties файла
      * @param personPropertyFilePath - путь к .properties файлу персональных данных
      * @param summaryPropertyFilePath - путь к .properties файлу данных резюме
      */
-    public SummaryServiceImpl(String personPropertyFilePath, String summaryPropertyFilePath){
-        PersonRepository personRepository = new PersonRepositoryFromPropertyFileImpl(
+    @Override
+    public void initSummaryService(String personPropertyFilePath, String summaryPropertyFilePath){
+        personRepository = new PersonRepositoryFromPropertyFileImpl(
                 personPropertyFilePath, summaryPropertyFilePath
         );
         this.personalData = personRepository.getPersonalData();
+        personRepository = null;
     }
 
     private ArrayList<String> getListDataFromAssociatedCollection(String associatedListData){
@@ -142,7 +151,7 @@ public class SummaryServiceImpl implements SummaryService {
                 writer.flush();
             }
             catch(IOException ex){
-                log.info(ex.getMessage());
+                ex.printStackTrace();
             }
         }
     }
