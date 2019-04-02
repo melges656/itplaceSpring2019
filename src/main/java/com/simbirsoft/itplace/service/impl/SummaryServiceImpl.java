@@ -34,7 +34,6 @@ public class SummaryServiceImpl implements SummaryService {
      * @param personPropertyFilePath - путь к .properties файлу персональных данных
      * @param summaryPropertyFilePath - путь к .properties файлу данных резюме
      */
-    @Override
     public void initSummaryService(String personPropertyFilePath, String summaryPropertyFilePath){
         personRepository = new PersonRepositoryFromPropertyFileImpl(
                 personPropertyFilePath, summaryPropertyFilePath

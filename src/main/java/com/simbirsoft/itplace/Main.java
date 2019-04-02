@@ -23,7 +23,7 @@ public class Main {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
-        SummaryService summaryService = context.getBean("summaryServiceImpl", SummaryServiceImpl.class);
+        SummaryServiceImpl summaryService = context.getBean("summaryServiceImpl", SummaryServiceImpl.class);
         summaryService.initSummaryService("person.properties", "summary.properties");
         try {
             URL urlJar = new URL(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().split("!/")[0]);
