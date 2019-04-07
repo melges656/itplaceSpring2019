@@ -1,5 +1,7 @@
 package com.simbirsoft.itplace.domain.entity;
 
+import java.util.List;
+
 public class PersonalData {
     /**
      * Свойство - Фамилия Имя Отчество
@@ -44,7 +46,7 @@ public class PersonalData {
     /**
      * Свойство - образование
      */
-    private String educations;
+    private List<String> educations;
 
     /**
      * Свойство - дополнительное образование
@@ -54,7 +56,7 @@ public class PersonalData {
     /**
      * Свойство - скилы
      */
-    private String skills;
+    private List<String> skills;
 
     /**
      * Свойство - примеры кода
@@ -70,9 +72,9 @@ public class PersonalData {
             String avatar,
             String target,
             String experiences,
-            String educations,
+            List<String> educations,
             String additionalEducations,
-            String skills,
+            List<String> skills,
             String examplesCode) {
         this.FIO = FIO;
         this.DOB = DOB;
@@ -152,11 +154,11 @@ public class PersonalData {
         this.experiences = experiences;
     }
 
-    public String getEducations() {
+    public List<String> getEducations() {
         return educations;
     }
 
-    public void setEducations(String educations) {
+    public void setEducations(List<String> educations) {
         this.educations = educations;
     }
 
@@ -168,11 +170,11 @@ public class PersonalData {
         this.additionalEducations = additionalEducations;
     }
 
-    public String getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(String skills) {
+    public void setSkills(List<String> skills) {
         this.skills = skills;
     }
 

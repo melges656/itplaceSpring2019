@@ -17,26 +17,10 @@ import java.net.URL;
  * @author a.stratonov
  * @version 1.0
  */
-@SpringBootApplication(scanBasePackages={
-        "com.simbirsoft.itplace"})
+@SpringBootApplication
 public class Main {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
-        SummaryServiceImpl summaryService = context.getBean("summaryServiceImpl", SummaryServiceImpl.class);
-        summaryService.initSummaryService("person.properties", "summary.properties");
-        try {
-            URL urlJar = new URL(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().split("!/")[0]);
-            File destFile = new File(urlJar.toURI().getPath());
-            String destPath = (destFile.isDirectory()?destFile.getPath():destFile.getParent())+File.separator;
-            System.out.println(destPath + "summary.html");
-            summaryService.createHtmlFile(destPath + "summary.html");
-        }catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
     }
 }

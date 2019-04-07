@@ -8,13 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Реализация репозитория @see {@link PersonRepository}
@@ -22,7 +24,7 @@ import java.util.Properties;
  * @author an.stratonov
  * @version 1.0
  */
-@Component
+@Service
 public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
 
     /**
@@ -37,10 +39,9 @@ public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
     private Thread summaryReader;
 
     @Autowired
-    public PersonRepositoryFromPropertyFileImpl(){
-
-    }
-    public PersonRepositoryFromPropertyFileImpl(String personConfigFileInput, String summaryConfigFileInput){
+    public PersonRepositoryFromPropertyFileImpl(
+            @Value("person.properties")String personConfigFileInput,
+            @Value("summary.properties")String summaryConfigFileInput){
         this.personDataFile = getProperties(personConfigFileInput, summaryConfigFileInput);
     }
 
@@ -66,6 +67,31 @@ public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
         return property;
     }
 
+    private List<String> parseAssociatedListDataString(String associatedListData){
+        ArrayList<String> list = new ArrayList<>();
+        HashMap<String, Integer> associatedData = new HashMap<>();
+        for(String keyValue: associatedListData.split(";")){
+            String[] tmp = keyValue.split(":");
+            associatedData.put(tmp[0], Integer.parseInt(tmp[1]));
+        }
+        Map<String, Integer>  sorted = associatedData
+                .entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(
+                        Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
+                                LinkedHashMap::new));
+        for (Map.Entry<String, Integer> entry: sorted.entrySet()){
+            StringBuilder tmp = new StringBuilder("Опыт работы с ");
+            list.add(tmp.append(entry.getKey()).append(" в месяцах: ").append(entry.getValue()).toString());
+        }
+        return list;
+    }
+
+    private List<String> parseListDataString(String listData){
+        return Arrays.asList(listData.split(";"));
+    }
+
     /**
      * @see PersonRepository
      */
@@ -82,9 +108,9 @@ public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
                     personDataFile.getProperty(PersonPropertyKeys.AVATAR),
                     personDataFile.getProperty(PersonPropertyKeys.TARGET),
                     personDataFile.getProperty(PersonPropertyKeys.EXPERIENCES),
-                    personDataFile.getProperty(PersonPropertyKeys.EDUCATIONS),
+                    parseListDataString(personDataFile.getProperty(PersonPropertyKeys.EDUCATIONS)),
                     personDataFile.getProperty(PersonPropertyKeys.ADDITIONAL_EDUCATIONS),
-                    personDataFile.getProperty(PersonPropertyKeys.SKILLS),
+                    parseAssociatedListDataString(personDataFile.getProperty(PersonPropertyKeys.SKILLS)),
                     personDataFile.getProperty(PersonPropertyKeys.EXAMPLES_CODE)
             );
         }
