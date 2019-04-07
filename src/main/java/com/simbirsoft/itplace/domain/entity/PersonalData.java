@@ -1,8 +1,17 @@
 package com.simbirsoft.itplace.domain.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.io.Serializable;
 import java.util.List;
+@Entity
+public class PersonalData implements Serializable {
 
-public class PersonalData {
+    @Id
+    @GeneratedValue
+    private Integer id;
     /**
      * Свойство - Фамилия Имя Отчество
      */
@@ -46,6 +55,7 @@ public class PersonalData {
     /**
      * Свойство - образование
      */
+    @Transient
     private List<String> educations;
 
     /**
@@ -56,12 +66,15 @@ public class PersonalData {
     /**
      * Свойство - скилы
      */
+    @Transient
     private List<String> skills;
 
     /**
      * Свойство - примеры кода
      */
     private String examplesCode;
+
+    public PersonalData(){}
 
     public PersonalData(
             String FIO,
