@@ -1,4 +1,4 @@
-package com.simbirsoft.itplace.dao.repository.threads;
+package com.simbirsoft.itplace.spring.service.threads;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

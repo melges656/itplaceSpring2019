@@ -1,13 +1,11 @@
 package com.simbirsoft.itplace.controller;
 
-import com.simbirsoft.itplace.dao.repository.PersonRepository;
-import com.simbirsoft.itplace.dao.repository.impl.PersonRepositoryFromPropertyFileImpl;
-import com.simbirsoft.itplace.domain.entity.PersonalData;
+import com.simbirsoft.itplace.spring.service.PersonService;
+import com.simbirsoft.itplace.entity.PersonalData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Denis on 07.04.2019.
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class SummaryController {
     @Autowired
-    PersonRepository service;
+    PersonService service;
 
     @GetMapping("/summary")
     public String getSummaryInfo(Model model) {

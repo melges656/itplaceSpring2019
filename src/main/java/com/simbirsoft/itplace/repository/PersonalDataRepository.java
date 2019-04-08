@@ -1,6 +1,6 @@
 package com.simbirsoft.itplace.repository;
 
-import com.simbirsoft.itplace.domain.entity.PersonalData;
+import com.simbirsoft.itplace.entity.PersonalData;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

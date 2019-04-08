@@ -1,31 +1,27 @@
-package com.simbirsoft.itplace.dao.repository.impl;
+package com.simbirsoft.itplace.spring.service.impl;
 
 import com.simbirsoft.itplace.common.constants.PersonPropertyKeys;
-import com.simbirsoft.itplace.dao.repository.PersonRepository;
-import com.simbirsoft.itplace.dao.repository.threads.PropertyReader;
-import com.simbirsoft.itplace.domain.entity.PersonalData;
+import com.simbirsoft.itplace.entity.Education;
+import com.simbirsoft.itplace.entity.Skill;
+import com.simbirsoft.itplace.spring.service.PersonService;
+import com.simbirsoft.itplace.spring.service.threads.PropertyReader;
+import com.simbirsoft.itplace.entity.PersonalData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Реализация репозитория @see {@link PersonRepository}
+ * Реализация репозитория @see {@link PersonService}
  *
  * @author an.stratonov
  * @version 1.0
  */
 @Service
-public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
+public class PersonServiceFromPropertyFileImpl implements PersonService {
 
     /**
      * Свойство - опыт работы
@@ -39,7 +35,7 @@ public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
     private Thread summaryReader;
 
     @Autowired
-    public PersonRepositoryFromPropertyFileImpl(
+    public PersonServiceFromPropertyFileImpl(
             @Value("person.properties")String personConfigFileInput,
             @Value("summary.properties")String summaryConfigFileInput){
         this.personDataFile = getProperties(personConfigFileInput, summaryConfigFileInput);
@@ -67,8 +63,8 @@ public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
         return property;
     }
 
-    private List<String> parseAssociatedListDataString(String associatedListData){
-        ArrayList<String> list = new ArrayList<>();
+    private List<Skill> parseAssociatedListSkillString(String associatedListData){
+        ArrayList<Skill> list = new ArrayList<>();
         HashMap<String, Integer> associatedData = new HashMap<>();
         for(String keyValue: associatedListData.split(";")){
             String[] tmp = keyValue.split(":");
@@ -82,18 +78,20 @@ public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
                         Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
                                 LinkedHashMap::new));
         for (Map.Entry<String, Integer> entry: sorted.entrySet()){
-            StringBuilder tmp = new StringBuilder("Опыт работы с ");
-            list.add(tmp.append(entry.getKey()).append(" в месяцах: ").append(entry.getValue()).toString());
+            list.add(new Skill(entry.getKey(), entry.getValue()));
         }
         return list;
     }
 
-    private List<String> parseListDataString(String listData){
-        return Arrays.asList(listData.split(";"));
+    private List<Education> parseListEducationString(String listData){
+        ArrayList<Education> educations = new ArrayList<>();
+        for(String education : Arrays.asList(listData.split(";")))
+            educations.add(new Education(education));
+        return educations;
     }
 
     /**
-     * @see PersonRepository
+     * @see PersonService
      */
     @Override
     public PersonalData getPersonalData() {
@@ -108,9 +106,9 @@ public class PersonRepositoryFromPropertyFileImpl implements PersonRepository {
                     personDataFile.getProperty(PersonPropertyKeys.AVATAR),
                     personDataFile.getProperty(PersonPropertyKeys.TARGET),
                     personDataFile.getProperty(PersonPropertyKeys.EXPERIENCES),
-                    parseListDataString(personDataFile.getProperty(PersonPropertyKeys.EDUCATIONS)),
+                    parseListEducationString(personDataFile.getProperty(PersonPropertyKeys.EDUCATIONS)),
                     personDataFile.getProperty(PersonPropertyKeys.ADDITIONAL_EDUCATIONS),
-                    parseAssociatedListDataString(personDataFile.getProperty(PersonPropertyKeys.SKILLS)),
+                    parseAssociatedListSkillString(personDataFile.getProperty(PersonPropertyKeys.SKILLS)),
                     personDataFile.getProperty(PersonPropertyKeys.EXAMPLES_CODE)
             );
         }

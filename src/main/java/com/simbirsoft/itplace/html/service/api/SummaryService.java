@@ -1,4 +1,4 @@
-package com.simbirsoft.itplace.service.api;
+package com.simbirsoft.itplace.html.service.api;
 
 /**
  * Сервес для создания HTML файла для резюме

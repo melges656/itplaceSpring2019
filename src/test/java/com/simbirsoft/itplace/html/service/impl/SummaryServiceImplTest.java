@@ -1,4 +1,4 @@
-package com.simbirsoft.itplace.service.impl;
+package com.simbirsoft.itplace.html.service.impl;
 
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;

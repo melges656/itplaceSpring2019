@@ -1,14 +1,13 @@
-package com.simbirsoft.itplace.dao.repository.impl;
+package com.simbirsoft.itplace.spring.service.impl;
 
-import com.simbirsoft.itplace.common.constants.PersonPropertyKeys;
-import com.simbirsoft.itplace.domain.entity.PersonalData;
+import com.simbirsoft.itplace.entity.PersonalData;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 
-public class PersonRepositoryFromPropertyFileImplTest {
+public class PersonServiceFromPropertyFileImplTest {
 
     private PersonalData personalData;
     private final String expectedFio = "Шалаев Денис Олегович";
@@ -16,7 +15,7 @@ public class PersonRepositoryFromPropertyFileImplTest {
 
     @Before
     public void setUp() throws Exception {
-        personalData = new PersonRepositoryFromPropertyFileImpl(
+        personalData = new PersonServiceFromPropertyFileImpl(
                 "person.properties", "summary.properties").getPersonalData();
     }
 

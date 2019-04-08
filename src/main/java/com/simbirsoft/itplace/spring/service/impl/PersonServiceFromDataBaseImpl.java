@@ -1,7 +1,7 @@
-package com.simbirsoft.itplace.dao.repository.impl;
+package com.simbirsoft.itplace.spring.service.impl;
 
-import com.simbirsoft.itplace.dao.repository.PersonRepository;
-import com.simbirsoft.itplace.domain.entity.PersonalData;
+import com.simbirsoft.itplace.spring.service.PersonService;
+import com.simbirsoft.itplace.entity.PersonalData;
 import com.simbirsoft.itplace.repository.PersonalDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Primary
-public class PersonRepositoryFromDataBaseImpl implements PersonRepository {
+public class PersonServiceFromDataBaseImpl implements PersonService {
     @Autowired
     PersonalDataRepository repository;
     @Override

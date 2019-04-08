@@ -41,7 +41,7 @@
         <h4 class="card-title"><strong>Образование:</strong></h4>
         <ol class="card-text" >
             <span th:each="education : ${personalData.educations}">
-            <li th:text="${education}"></li>
+            <li th:text="${education.education}"></li>
             </span>
         </ol>
     </div>
@@ -53,7 +53,7 @@
         <h4 class="card-title"><strong>Навыки:</strong></h4>
         <ol class="card-text">
             <span th:each="skill : ${personalData.skills}">
-            <li th:text="${skill}"></li>
+            <li th:text="'Опыт работы с '+${skill.skill}+' в месяцах: '+${skill.value}"></li>
             </span>
         </ol>
     </div>

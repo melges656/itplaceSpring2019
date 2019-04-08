@@ -1,11 +1,11 @@
-package com.simbirsoft.itplace.domain.entity;
+package com.simbirsoft.itplace.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
+
 @Entity
 public class PersonalData implements Serializable {
 
@@ -55,8 +55,8 @@ public class PersonalData implements Serializable {
     /**
      * Свойство - образование
      */
-    @Transient
-    private List<String> educations;
+    @OneToMany(cascade=ALL, mappedBy="personalData")
+    private List<Education> educations;
 
     /**
      * Свойство - дополнительное образование
@@ -66,8 +66,9 @@ public class PersonalData implements Serializable {
     /**
      * Свойство - скилы
      */
-    @Transient
-    private List<String> skills;
+    @OneToMany(cascade=ALL, mappedBy="personalData")
+    @OrderBy("value DESC")
+    private List<Skill> skills;
 
     /**
      * Свойство - примеры кода
@@ -85,9 +86,9 @@ public class PersonalData implements Serializable {
             String avatar,
             String target,
             String experiences,
-            List<String> educations,
+            List<Education> educations,
             String additionalEducations,
-            List<String> skills,
+            List<Skill> skills,
             String examplesCode) {
         this.FIO = FIO;
         this.DOB = DOB;
@@ -167,11 +168,11 @@ public class PersonalData implements Serializable {
         this.experiences = experiences;
     }
 
-    public List<String> getEducations() {
+    public List<Education> getEducations() {
         return educations;
     }
 
-    public void setEducations(List<String> educations) {
+    public void setEducations(List<Education> educations) {
         this.educations = educations;
     }
 
@@ -183,11 +184,11 @@ public class PersonalData implements Serializable {
         this.additionalEducations = additionalEducations;
     }
 
-    public List<String> getSkills() {
+    public List<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<String> skills) {
+    public void setSkills(List<Skill> skills) {
         this.skills = skills;
     }
 

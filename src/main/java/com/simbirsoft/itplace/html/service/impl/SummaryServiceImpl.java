@@ -1,9 +1,11 @@
-package com.simbirsoft.itplace.service.impl;
+package com.simbirsoft.itplace.html.service.impl;
 
-import com.simbirsoft.itplace.dao.repository.PersonRepository;
-import com.simbirsoft.itplace.dao.repository.impl.PersonRepositoryFromPropertyFileImpl;
-import com.simbirsoft.itplace.domain.entity.PersonalData;
-import com.simbirsoft.itplace.service.api.SummaryService;
+import com.simbirsoft.itplace.entity.Education;
+import com.simbirsoft.itplace.entity.Skill;
+import com.simbirsoft.itplace.html.service.api.SummaryService;
+import com.simbirsoft.itplace.spring.service.PersonService;
+import com.simbirsoft.itplace.spring.service.impl.PersonServiceFromPropertyFileImpl;
+import com.simbirsoft.itplace.entity.PersonalData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -12,7 +14,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Реализация интерфейса @see {@link SummaryService}
@@ -25,8 +26,8 @@ public class SummaryServiceImpl implements SummaryService {
      */
     private PersonalData personalData;
     @Autowired
-    @Qualifier("personRepositoryFromPropertyFileImpl")
-    private PersonRepository personRepository;
+    @Qualifier("personServiceFromPropertyFileImpl")
+    private PersonService personService;
     @Autowired
     public SummaryServiceImpl(){}
     /**
@@ -35,17 +36,25 @@ public class SummaryServiceImpl implements SummaryService {
      * @param summaryPropertyFilePath - путь к .properties файлу данных резюме
      */
     public void initSummaryService(String personPropertyFilePath, String summaryPropertyFilePath){
-        personRepository = new PersonRepositoryFromPropertyFileImpl(
+        personService = new PersonServiceFromPropertyFileImpl(
                 personPropertyFilePath, summaryPropertyFilePath
         );
-        this.personalData = personRepository.getPersonalData();
-        personRepository = null;
+        this.personalData = personService.getPersonalData();
+        personService = null;
     }
 
-    private String getHtmlList(List<String> listData){
+    private String getHtmlListFromSkill(List<Skill> skills){
         StringBuilder htmlList = new StringBuilder();
-        for(String listItem: listData)
-            htmlList.append("<li>").append(listItem).append("</li>");
+        for(Skill skill : skills)
+            htmlList.append("<li>").append("Опыт работы с ").append(skill.getSkill())
+                    .append(" в месяцах: ").append(skill.getValue()).append("</li>");
+        return htmlList.toString();
+    }
+
+    private String getHtmlListFromEducations(List<Education> educations){
+        StringBuilder htmlList = new StringBuilder();
+        for(Education education: educations)
+            htmlList.append("<li>").append(education.getEducation()).append("</li>");
         return htmlList.toString();
     }
 
@@ -94,7 +103,7 @@ public class SummaryServiceImpl implements SummaryService {
                     "        <div class=\"card card-block\">\n" +
                     "            <h4 class=\"card-title\"><strong>Образование:</strong></h4>\n" +
                     "            <ol class=\"card-text\">\n"
-                                    + getHtmlList(personalData.getEducations()) +
+                                    + getHtmlListFromEducations(personalData.getEducations()) +
                     "            </ol>\n" +
                     "        </div>\n" +
                     "        <div class=\"card card-block\">\n" +
@@ -104,7 +113,7 @@ public class SummaryServiceImpl implements SummaryService {
                     "        <div class=\"card card-block\">\n" +
                     "            <h4 class=\"card-title\"><strong>Навыки:</strong></h4>\n" +
                     "            <ol class=\"card-text\">\n"
-                                    + getHtmlList(personalData.getSkills()) +
+                                    + getHtmlListFromSkill(personalData.getSkills()) +
                     "            </ol>\n" +
                     "        </div>\n" +
                     "        <div class=\"card card-block\">\n" +
