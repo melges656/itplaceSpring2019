@@ -5,9 +5,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/getSummary.js"></script>
     <style>
         body{background: darkgray; padding: 10px 0;}
         .container { max-width: 50%; background: white; padding: 10px;}
@@ -19,23 +21,23 @@
     <div class="row">
         <div class="col-xs-8 col-md-8">
             <dl class="dl-horizontal">
-                <dt>ФИО:</dt><dd th:text="${personalData.FIO}" />
-                <dt>Дата рождения:</dt><dd th:text="${personalData.DOB}" />
-                <dt>Телефон:</dt><dd th:text="${personalData.phone}" />
-                <dt>e-mail:</dt><dd th:text="${personalData.email}" />
-                <dt>Skype:</dt><dd th:text="${personalData.skype}" />
+                <dt>ФИО:</dt><dd id="FIO" />
+                <dt>Дата рождения:</dt><dd id="DOB" />
+                <dt>Телефон:</dt><dd id="phone" />
+                <dt>e-mail:</dt><dd id="email" />
+                <dt>Skype:</dt><dd id="skype" />
             </dl></div>
         <div class="col-xs-4 col-md-4">
-            <img th:src=${personalData.avatar} width="100%">
+            <img id="avatar" width="100%">
         </div>
     </div>
     <div class="card card-block">
         <h4 class="card-title"><strong>Цель:</strong></h4>
-        <p class="card-text" th:text="${personalData.target}"/>
+        <p class="card-text" id="target"/>
     </div>
     <div class="card card-block">
         <h4 class="card-title"><strong>Опыт работы:</strong></h4>
-        <p class="card-text" th:text="${personalData.experiences}"/>
+        <p class="card-text" id="experiences"/>
     </div>
     <div class="card card-block">
         <h4 class="card-title"><strong>Образование:</strong></h4>
@@ -47,7 +49,7 @@
     </div>
     <div class="card card-block">
         <h4 class="card-title"><strong>Доп. образ. и курсы:</strong></h4>
-        <p class="card-text"th:text="${personalData.additionalEducations}"/>
+        <p class="card-text"id="additionalEducations"/>
     </div>
     <div class="card card-block">
         <h4 class="card-title"><strong>Навыки:</strong></h4>
@@ -60,7 +62,7 @@
     <div class="card card-block">
         <h4 class="card-title"><strong>Примеры моего кода:</strong></h4>
         <div class="card-text">
-            <p th:utext="${personalData.examplesCode}">
+            <p id="examplesCode">
         </div>
     </div>
 </div>

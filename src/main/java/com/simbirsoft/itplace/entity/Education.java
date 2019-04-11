@@ -1,5 +1,8 @@
 package com.simbirsoft.itplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -7,6 +10,7 @@ import java.io.Serializable;
  * Created by Denis on 08.04.2019.
  */
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Education implements Serializable {
     @Id
     @GeneratedValue
@@ -14,6 +18,7 @@ public class Education implements Serializable {
 
     private String education;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="PERSONAL_DATA_ID")
     private PersonalData personalData;

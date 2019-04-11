@@ -25,4 +25,5 @@ public class SummaryController {
         model.addAttribute("personalData", personalData);
         return "summary";
     }
+
 }

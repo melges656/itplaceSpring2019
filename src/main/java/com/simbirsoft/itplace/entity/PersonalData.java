@@ -1,5 +1,8 @@
 package com.simbirsoft.itplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -7,6 +10,7 @@ import java.util.List;
 import static javax.persistence.CascadeType.ALL;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PersonalData implements Serializable {
 
     @Id
@@ -55,6 +59,7 @@ public class PersonalData implements Serializable {
     /**
      * Свойство - образование
      */
+    @JsonManagedReference
     @OneToMany(cascade=ALL, mappedBy="personalData")
     private List<Education> educations;
 
@@ -66,6 +71,7 @@ public class PersonalData implements Serializable {
     /**
      * Свойство - скилы
      */
+    @JsonManagedReference
     @OneToMany(cascade=ALL, mappedBy="personalData")
     @OrderBy("value DESC")
     private List<Skill> skills;
