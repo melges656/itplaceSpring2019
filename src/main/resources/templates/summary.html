@@ -41,11 +41,7 @@
     </div>
     <div class="card card-block">
         <h4 class="card-title"><strong>Образование:</strong></h4>
-        <ol class="card-text" >
-            <span th:each="education : ${personalData.educations}">
-            <li th:text="${education.education}"></li>
-            </span>
-        </ol>
+        <ol class="card-text" id="educations" />
     </div>
     <div class="card card-block">
         <h4 class="card-title"><strong>Доп. образ. и курсы:</strong></h4>
@@ -53,11 +49,7 @@
     </div>
     <div class="card card-block">
         <h4 class="card-title"><strong>Навыки:</strong></h4>
-        <ol class="card-text">
-            <span th:each="skill : ${personalData.skills}">
-            <li th:text="'Опыт работы с '+${skill.skill}+' в месяцах: '+${skill.value}"></li>
-            </span>
-        </ol>
+        <ol class="card-text" id="skills"/>
     </div>
     <div class="card card-block">
         <h4 class="card-title"><strong>Примеры моего кода:</strong></h4>

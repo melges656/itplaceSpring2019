@@ -10,6 +10,13 @@ $(document).ready(function () {
         $( "#experiences" ).text( data.experiences );
         $( "#additionalEducations" ).text( data.additionalEducations );
         $( "#examplesCode" ).html( data.examplesCode );
+        $( data.educations ).each(function( index ) {
+            $( "#educations" ).append( "<li>" + this.education + "</li>" );
+        });
+        $( data.skills ).each(function( index ) {
+            $( "#skills" ).append( "<li> Опыт работы с " + this.skill +
+             " в месяцах: " + this.value + "</li>" );
+        });
     });
 
 });
