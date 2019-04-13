@@ -114,4 +114,29 @@ public class PersonServiceFromPropertyFileImpl implements PersonService {
         }
         return personalData;
     }
+
+    @Override
+    public List<PersonalData> getAllPersonalDatas() {
+        return null;
+    }
+
+    @Override
+    public PersonalData getPersonalDataById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void deletePersonalData(Long id) {
+
+    }
+
+    @Override
+    public void addPersonalData(PersonalData personalData) {
+
+    }
+
+    @Override
+    public void updatePersonalData(Long id, PersonalData personalData) {
+
+    }
 }

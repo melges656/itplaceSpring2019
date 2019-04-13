@@ -15,7 +15,7 @@ public class PersonalData implements Serializable {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
     /**
      * Свойство - Фамилия Имя Отчество
      */
@@ -205,4 +205,6 @@ public class PersonalData implements Serializable {
     public void setExamplesCode(String examplesCode) {
         this.examplesCode = examplesCode;
     }
+
+    public Long getId() { return id; }
 }

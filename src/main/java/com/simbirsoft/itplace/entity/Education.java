@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Education implements Serializable {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     private String education;
 
@@ -29,11 +29,13 @@ public class Education implements Serializable {
         this.education=education;
     }
 
-    public void setEducation(String education){this.education = education;}
+    public void setEducation(String education) { this.education = education; }
 
-    public String getEducation(){return education;}
+    public String getEducation() { return education; }
 
-    public void setPersonalData(PersonalData personalData){this.personalData=personalData;}
+    public void setPersonalData(PersonalData personalData) { this.personalData=personalData; }
 
-    public PersonalData getPersonalData(){return personalData;}
+    public PersonalData getPersonalData() { return personalData; }
+
+    public Long getId() { return id; }
 }

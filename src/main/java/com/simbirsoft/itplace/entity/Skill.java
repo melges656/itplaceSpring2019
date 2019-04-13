@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Skill implements Serializable {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     private String skill;
 
@@ -43,4 +43,6 @@ public class Skill implements Serializable {
     public void setValue(Integer value){this.value=value;}
 
     public Integer getValue(){return value;}
+
+    public Long getId() { return id; }
 }

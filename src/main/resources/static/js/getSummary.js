@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $.get( "/rsummary/1", function( data ) {
+    $.get( "/rest/summary/1", function( data ) {
         $( "#FIO" ).text( data.fio );
         $( "#DOB" ).text( data.dob );
         $( "#phone" ).text( data.phone );
