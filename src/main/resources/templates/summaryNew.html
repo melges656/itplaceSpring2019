@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Резюме</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <style>
+        body{background: darkgray; padding: 10px 0;}
+        .container { max-width: 50%; background: white; padding: 10px;}
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <form action="#" th:action="@{/summary/save}" th:object="${personalData}" method="post">
+        <fieldset>
+            <input type="submit" id="submitButton" th:value="Save">
+            <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
+            <h4 class="text-center"><strong>Резюме</strong>
+                <p>на должность Java-стажер</p></h4>
+            <div class="row">
+                <div class="col-xs-8 col-md-8">
+                    <dl class="dl-horizontal">
+                        <dt>ФИО:</dt>
+                        <dd>
+                            <input th:field="*{FIO}" type="text" class="form-control" placeholder="FIO" id="FIO"/>
+                        </dd>
+                        <dt>Дата рождения:</dt>
+                        <dd>
+                            <input th:field="*{DOB}" type="text" class="form-control" placeholder="DOB" id="DOB"/>
+                        </dd>
+                        <dt>Телефон:</dt>
+                        <dd>
+                            <input th:field="*{phone}" type="text" class="form-control" placeholder="phone" id="phone"/>
+                        </dd>
+                        <dt>e-mail:</dt>
+                        <dd>
+                            <input th:field="*{email}" type="text" class="form-control" placeholder="email" id="email"/>
+                        </dd>
+                        <dt>Skype:</dt>
+                        <dd>
+                            <input th:field="*{skype}" type="text" class="form-control" placeholder="skype" id="skype"/>
+                        </dd>
+                        <dt>Avatar:</dt>
+                        <dd>
+                            <input th:field="*{avatar}" type="text" class="form-control" placeholder="avatar" id="avatar"/>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                </div>
+            </div>
+            <div class="card card-block">
+                <h4 class="card-title"><strong>Цель:</strong></h4>
+                <input th:field="*{target}" type="text" class="form-control" placeholder="target" id="target"/>
+            </div>
+            <div class="card card-block">
+                <h4 class="card-title"><strong>Опыт работы:</strong></h4>
+                <input th:field="*{experiences}" type="text" class="form-control" placeholder="experiences" id="experiences"/>
+            </div>
+            <div class="card card-block">
+                <table>
+                    <thead>
+                    <tr>
+                        <th> <strong>Образование:</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="education, itemStat : *{educations}">
+                        <td><input th:field="*{educations[__${itemStat.index}__].education}" /></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card card-block">
+                <h4 class="card-title"><strong>Доп. образ. и курсы:</strong></h4>
+                <input th:field="*{additionalEducations}" type="text" class="form-control"
+                       placeholder="additionalEducations" id="additionalEducations"/>
+            </div>
+            <div class="card card-block">
+                <h4 class="card-title"><strong>Навыки:</strong></h4>
+                <table>
+                    <thead>
+                    <tr>
+                        <th> Навык </th>
+                        <th> Опыт в месяцах </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="skill, itemStat : *{skills}">
+                        <td><input th:field="*{skills[__${itemStat.index}__].skill}" /></td>
+                        <td><input th:field="*{skills[__${itemStat.index}__].value}" /></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card card-block">
+                <h4 class="card-title"><strong>Примеры моего кода:</strong></h4>
+                <input th:field="*{examplesCode}" type="text" class="form-control" placeholder="examplesCode" id="examplesCode"/>
+            </div>
+            <div class="card card-block">
+                <h4 class="card-title"><strong>Тэги через запятую:</strong></h4>
+                <input th:field="*{tagsString}" type="text" class="form-control" placeholder="tagsString" id="tagsString"/>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

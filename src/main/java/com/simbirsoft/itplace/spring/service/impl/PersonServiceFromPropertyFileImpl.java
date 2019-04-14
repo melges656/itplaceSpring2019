@@ -121,6 +121,11 @@ public class PersonServiceFromPropertyFileImpl implements PersonService {
     }
 
     @Override
+    public List<PersonalData> getPersonalDataByTag(String tag) {
+        return null;
+    }
+
+    @Override
     public PersonalData getPersonalDataById(Long id) {
         return null;
     }

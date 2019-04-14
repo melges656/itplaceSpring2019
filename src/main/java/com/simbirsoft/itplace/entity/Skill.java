@@ -10,10 +10,11 @@ import java.io.Serializable;
  * Created by Denis on 08.04.2019.
  */
 @Entity
+@SequenceGenerator(name="seqSkill", initialValue=6, allocationSize=100)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Skill implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqSkill")
     private Long id;
 
     private String skill;

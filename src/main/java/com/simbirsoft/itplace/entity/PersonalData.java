@@ -1,7 +1,9 @@
 package com.simbirsoft.itplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,11 +12,12 @@ import java.util.List;
 import static javax.persistence.CascadeType.ALL;
 
 @Entity
+@SequenceGenerator(name="seqSummary", initialValue=1, allocationSize=100)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PersonalData implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqSummary")
     private Long id;
     /**
      * Свойство - Фамилия Имя Отчество
@@ -80,6 +83,12 @@ public class PersonalData implements Serializable {
      * Свойство - примеры кода
      */
     private String examplesCode;
+
+    @ManyToMany(cascade=ALL, fetch = FetchType.LAZY, mappedBy="personalDataList")
+    private List<Tag> tags;
+
+    @Transient
+    private String tagsString;
 
     public PersonalData(){}
 
@@ -207,4 +216,16 @@ public class PersonalData implements Serializable {
     }
 
     public Long getId() { return id; }
+
+    public void setTags( List<Tag> tags) { this.tags = tags; }
+
+    public List<Tag> getTags () { return tags; }
+
+    @JsonIgnore
+    @JsonProperty(value = "tagsString")
+    public String getTagsString() { return tagsString; }
+
+    public void setTagsString( String tagsString ) { this.tagsString = tagsString; }
+
+    public void setAvatar( String avatar ) { this.avatar = avatar; }
 }

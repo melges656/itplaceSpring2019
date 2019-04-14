@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    $.get( "/rest/summary/1", function( data ) {
+    var pathArray = window.location.pathname.split( '/' );
+    var summaryId = pathArray[ pathArray.length - 1 ];
+    $.get( "/rest/summary/" + summaryId, function( data ) {
         $( "#FIO" ).text( data.fio );
         $( "#DOB" ).text( data.dob );
         $( "#phone" ).text( data.phone );

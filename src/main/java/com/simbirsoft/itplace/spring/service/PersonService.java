@@ -1,6 +1,7 @@
 package com.simbirsoft.itplace.spring.service;
 
 import com.simbirsoft.itplace.entity.PersonalData;
+import com.simbirsoft.itplace.entity.Tag;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public interface PersonService {
      */
     PersonalData getPersonalData();
     List<PersonalData> getAllPersonalDatas();
+    List<PersonalData> getPersonalDataByTag(String tag);
     PersonalData getPersonalDataById(Long id);
     void deletePersonalData(Long id);
     void addPersonalData(PersonalData personalData);

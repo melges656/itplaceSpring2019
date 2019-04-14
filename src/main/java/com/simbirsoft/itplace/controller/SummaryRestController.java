@@ -3,6 +3,7 @@ package com.simbirsoft.itplace.controller;
 import com.simbirsoft.itplace.Exception.ElementNotFoundException;
 import com.simbirsoft.itplace.entity.PersonalData;
 import com.simbirsoft.itplace.repository.PersonalDataRepository;
+import com.simbirsoft.itplace.repository.TagRepository;
 import com.simbirsoft.itplace.spring.service.impl.PersonServiceFromDataBaseImpl;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,12 @@ public class SummaryRestController {
     @ApiOperation(value = "Get all summary.")
     public List<PersonalData> getAllSummary(){
         return service.getAllPersonalDatas();
+    }
+
+    @GetMapping("/tag/{name}")
+    @ApiOperation(value = "Get all summary by tag.")
+    public List<PersonalData> getAllSummaryByTag(@PathVariable String name){
+        return service.getPersonalDataByTag(name);
     }
 
     @GetMapping("{id}")
